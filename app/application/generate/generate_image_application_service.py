@@ -1,9 +1,15 @@
-from injector import singleton
+import PIL.Image
+from injector import singleton, inject
 
 from application.generate.command import PaintByExampleCommand
+from domain.model.generator import ImageGenerationService
 
 
 @singleton
 class GenerateImageApplicationService:
-    def paint_by_example(self, command: PaintByExampleCommand) -> str:
-        return 'https://fujifilm-x.com/wp-content/uploads/2021/01/gfx100s_sample_04_thum-1.jpg'
+    @inject
+    def __init__(self, image_generation_service: ImageGenerationService):
+        self.__image_generation_service = image_generation_service
+
+    def paint_by_example(self, command: PaintByExampleCommand) -> PIL.Image.Image:
+        return self.__image_generation_service.paint_by_example(command.origin, command.mask, command.reference)

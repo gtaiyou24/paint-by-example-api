@@ -17,6 +17,6 @@ def generate(request: PaintByExampleRequest) -> PaintByExampleJson:
     application_service = DIContainer.instance().resolve(GenerateImageApplicationService)
 
     command = PaintByExampleCommand(origin=request.origin, mask=request.mask, reference=request.reference)
-    image_url = application_service.paint_by_example(command)
+    image = application_service.paint_by_example(command)
 
-    return PaintByExampleJson.of(image_url)
+    return PaintByExampleJson.of(image)
