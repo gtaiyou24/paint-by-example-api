@@ -1,0 +1,1 @@
+from .paint_by_example_json import PaintByExampleJson
