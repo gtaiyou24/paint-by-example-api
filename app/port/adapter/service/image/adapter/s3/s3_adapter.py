@@ -11,18 +11,10 @@ from port.adapter.service.image.adapter import ImageStorageAdapter
 
 @set_logger
 class S3Adapter(ImageStorageAdapter):
-    def __init__(self,
-                 aws_access_key_id: str,
-                 aws_secret_access_key: str,
-                 region: str,
-                 bucket: str,
-                 cdn_hostname: str):
+    def __init__(self, bucket: str, cdn_hostname: str, region: str):
         self.__bucket = bucket
         self.__cdn_hostname = cdn_hostname
-        self.__s3_client = boto3.client('s3',
-                                        region_name=region,
-                                        aws_access_key_id=aws_access_key_id,
-                                        aws_secret_access_key=aws_secret_access_key)
+        self.__s3_client = boto3.client('s3', region_name=region)
 
     def upload(self, image: Image) -> str:
         _format = f'{image.format.lower()}'

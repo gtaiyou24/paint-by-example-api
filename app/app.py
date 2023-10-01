@@ -20,11 +20,7 @@ async def lifespan(app: FastAPI):
         DI.of(ImageStorageService, {}, ImageStorageServiceImpl),
         DI.of(ImageStorageAdapter,
               {'Stub': ImageStorageAdapterStub},
-              S3Adapter(os.getenv('AWS_ACCESS_KEY_ID'),
-                        os.getenv('AWS_SECRET_ACCESS_KEY'),
-                        os.getenv('AWS_REGION'),
-                        os.getenv('AWS_S3_BUCKET'),
-                        os.getenv('AWS_CLOUDFRONT_HOSTNAME'))),
+              S3Adapter(os.getenv('AWS_S3_BUCKET'), os.getenv('AWS_CLOUDFRONT_HOSTNAME'), os.getenv('AWS_REGION'))),
     )
     for di in di_list:
         DIContainer.instance().register(di)
