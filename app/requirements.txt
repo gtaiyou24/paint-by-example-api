@@ -5,3 +5,4 @@ di4injector==0.0.1
 slf4py==0.0.2
 requests==2.31.0
 boto3==1.28.49
+mangum==0.17.0
