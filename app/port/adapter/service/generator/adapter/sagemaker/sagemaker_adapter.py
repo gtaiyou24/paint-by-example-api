@@ -15,7 +15,7 @@ from port.adapter.service.generator.adapter import ImageGeneratorAdapter
 
 class SageMakerAdapter(ImageGeneratorAdapter):
     def __init__(self, endpoint_name: str):
-        session = Session(boto_session=boto3.Session(profile_name=os.getenv("AWS_PROFILE")))
+        session = Session(boto_session=boto3.Session(profile_name=os.getenv("AWS_PROFILE"), region_name='ap-northeast-1'))
         self.__predictor = Predictor(
             endpoint_name=endpoint_name,
             sagemaker_session=session,
@@ -38,5 +38,5 @@ class SageMakerAdapter(ImageGeneratorAdapter):
     def __to_base64_from(self, image: PIL.Image.Image) -> str:
         buffered = io.BytesIO()
         image.save(buffered, format=f"{image.format.lower()}")
-        img_base64 = base64.b64encode(buffered.getvalue())
+        img_base64 = base64.b64encode(buffered.getvalue()).decode("ascii")
         return f"data:image/{image.format.lower()};base64,{img_base64}"
